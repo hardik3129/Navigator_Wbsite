@@ -50,10 +50,16 @@ const TableList = () => {
       text : 'Facesurgery'
     }
   ]
+
+  
+  
   
   return (
     <>
-      {/* <table>
+      <h2>Searching TableList</h2>
+      <BootstrapTable filter={filterFactory()} keyField='id' data={ AppoinData } columns={ columns } search />
+      <h2>Simple TableList</h2>
+      <table>
         <tbody>
           <tr>
             <th>Id</th>
@@ -84,8 +90,7 @@ const TableList = () => {
             })
           }
         </tbody>
-      </table> */}
-      <BootstrapTable filter={filterFactory()} keyField='id' data={ AppoinData } columns={ columns } search />
+      </table>
     </>
   )
 }

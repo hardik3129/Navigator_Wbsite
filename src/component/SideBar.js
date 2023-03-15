@@ -63,7 +63,9 @@ const ToggleSidebar = (props) => {
                         </div>
                     </div>
                     <div className={`sidebar-overlay ${isOpen === true ? 'active' : ''}`} onClick={ToggleSidebar}></div>
-           {props.children}
+                <div className="py-3">
+                    {props.children}
+                </div>
            </div>
         </>
     )
