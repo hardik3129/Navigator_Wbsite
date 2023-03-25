@@ -4,12 +4,17 @@ import { GrFormClose } from "react-icons/gr";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { AiFillAudio, AiOutlineForm } from "react-icons/ai";
+import { useContext } from "react";
+import Context from "../context/context";
 
 const ToggleSidebar = (props) => {
-    const Location = useLocation
     const [isOpen, setIsopen] = useState(false);
     const [user, setuser] = useState(false)
-
+    const Location = useLocation
+    const theme = useContext(Context)
+    
+    const [Theme, setTheme] = useState(theme)
+    
     useEffect(() => {
         if (localStorage.getItem('userLogin')) {
             setuser(true)
@@ -25,11 +30,14 @@ const ToggleSidebar = (props) => {
     const OnClickLogout = () => {
         localStorage.removeItem('userLogin')
     }
+    const OnchangeTheme = () => {
+        setTheme(Theme === 'Light' ? "Dark" : "Light")
+    }
 
     return (
         <>
-            <div className="container-fluid mt-3">
-                    <nav className="navbar navbar-light bg-white shadow-md">
+            <div className={`container-fluid pt-3`}>
+                    <nav className={`navbar navbar-light shadow-md ${Theme}`}>
                         <div className="container-fluid p-2">
                             <div className="form-inline">
                                 <div className="btn btn-primary d-flex" onClick={ToggleSidebar} >
@@ -39,10 +47,13 @@ const ToggleSidebar = (props) => {
                                     <input className="search" type='search' placeholder="Search" />
                                 </div>
                             </div>
+                            <div className="form-check form-switch d-flex align-items-center">
+                                <input className="form-check-input" onChange={OnchangeTheme} type="checkbox" id="flexSwitchCheckChecked" />
                             {
-                                user === true ? <Link to='/login' className="navbar-brand text-primary" onClick={OnClickLogout}>Logout</Link> : 
-                                <Link to='/login' className="navbar-brand text-primary">Login</Link>
+                                user === true ? <Link to='/login' className="navbar-brand text-primary login-link" onClick={OnClickLogout}>Logout</Link> : 
+                                <Link to='/login' className="navbar-brand text-primary login-link">Login</Link>
                             }
+                            </div>
                         </div>
                     </nav>
                     <div className={`sidebar ${isOpen === true ? 'active' : ''}`}>
@@ -63,7 +74,7 @@ const ToggleSidebar = (props) => {
                         </div>
                     </div>
                     <div className={`sidebar-overlay ${isOpen === true ? 'active' : ''}`} onClick={ToggleSidebar}></div>
-                <div className="py-3">
+                <div className="py-3 container">
                     {props.children}
                 </div>
            </div>

@@ -7,8 +7,17 @@ const TableList = () => {
 
   const [AppoinData, setAppoinData] = useState([])
 
+  const obj = {
+    dataField : 'FACESURGERY',
+    text : 'Facesurgery',
+    null_Number : null,
+    undefined_Number : undefined
+  }
+
   useEffect(() => {
     setAppoinData(JSON.parse(localStorage.getItem('BookApoinmentData')) || [])
+    const newObj = Object.entries(obj).filter(([ key , val]) => val != null)
+    console.log(Object.fromEntries(newObj));
   },[])
   
   const columns = [
@@ -50,9 +59,6 @@ const TableList = () => {
       text : 'Facesurgery'
     }
   ]
-
-  
-  
   
   return (
     <>
