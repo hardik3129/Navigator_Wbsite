@@ -4,6 +4,7 @@ import { GrFormClose } from "react-icons/gr";
 import { Link, useLocation } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { AiFillAudio, AiOutlineForm } from "react-icons/ai";
+import { IoMdAdd } from 'react-icons/io'
 import { useContext } from "react";
 import Context from "../context/context";
 
@@ -69,6 +70,7 @@ const ToggleSidebar = (props) => {
                                     <li><Link onClick={ToggleSidebar} to='/tablelist' className="sd-link"><FaTable className="me-2 fs-5" />List Apoinment</Link></li> :
                                     <li><Link onClick={ToggleSidebar} to='/bookapoinment' className="sd-link"><AiOutlineForm className="me-2 fs-5" />Book Apoinment</Link></li>
                                 }
+                                <li><Link onClick={ToggleSidebar} to='/additems' className="sd-link"><IoMdAdd className="me-2 fs-5" />Add Items</Link></li>
                                 <li><Link onClick={ToggleSidebar} to='/audio' className="sd-link"><AiFillAudio className="me-2 fs-5" />Audio Recorder</Link></li>
                             </ul>
                         </div>

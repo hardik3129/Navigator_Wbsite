@@ -13,14 +13,14 @@ const UserProfile = () => {
   
   return (
     <>
-      <section className='my-4 p-5 d-flex align-items-center'>
+      <section className='my-4 p-5 d-flex'>
         <div className='profile-img me-5 col-4'>
           <img src={Profile?.profileURL} width='100%' alt='' />
         </div>
         <div className='col-6'>
           <h2>{Profile?.firstName} {Profile?.lastName}</h2>
           <h6>{Profile?.specialisation}</h6>
-          <p className='my-3'>"Dr Mahesh Deshay belives that once you start being more aware of your thoughts and actions, you will start appreciating life in a new way. This is why he specializes in depression, mood disorders, but aimed at direct interaction to help the patient bring about a visible change in himself or herself."</p>
+          <p className='my-3'>{Profile?.profileDesc}</p>
           <b>Languages : </b>{Profile?.language}
           <div className='d-flex mt-2'>
             <div>
@@ -29,11 +29,11 @@ const UserProfile = () => {
             {
               Profile?.experience.map((i) => {
                 return (
-                  <div className='me-2'>
-                    <span className='text-info fw-bold d-block'>Company <span className='text-black fw-normal'>: {i.company}</span></span>
-                    <span className='text-info fw-bold d-block'>Years <span className='text-black fw-normal'>: {i.years}</span></span>
-                    <span className='text-info fw-bold d-block'>desc <span className='text-black fw-normal'>: {i.desc}</span></span>
-                    <span className='text-info fw-bold d-block'>awards <span className='text-black fw-normal'>: {i.awards}</span></span>
+                  <div className='me-2 user-experience'>
+                    <span className='text-info fw-bold d-block'>Company <p className='fw-normal'>: {i.company}</p></span>
+                    <span className='text-info fw-bold d-block'>Years <p className='fw-normal'>: {i.years}</p></span>
+                    <span className='text-info fw-bold d-block'>desc <p className='fw-normal'>: {i.desc}</p></span>
+                    <span className='text-info fw-bold d-block'>awards <p className='fw-normal'>: {i.awards}</p></span>
                   </div>
                 )
               })
