@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { countMinushaction, countPlushaction } from '../redux/action/count.action'
 import axios from 'axios'
 import { apigetaction } from '../redux/action/apiget.action'
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore'
+import { auth, db } from '../firebase'
 
 const Home = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const Product = useSelector((data) => data.apigetreducer.apidata)
-  console.log("Product+=",Product);
-  
+  const [Product, setProduct] = useState([])
 
   // =========================== VIEW-PROFILE ==========================
   const OnClickView = (id) => {
@@ -31,23 +31,54 @@ const Home = () => {
 
   // ========================= GETDATA TO API ========================
   useEffect(() => {
-    getdata()
+    // getdata()8
+    getorder()
   },[])
 
-  const getdata = async () => {
+  const getdata = () => {
     dispatch(apigetaction()) 
   }
 
   // ===================== DELETE =======================
   const OnclickDelete = async (id) => {
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/items/${id}`)
-    getdata()
+    const del =  await deleteDoc(doc(db,'orders',toString(id)))
+    console.log(del);
+    // ========================== DELETE BY API =========================
+    // await axios.delete(`${process.env.REACT_APP_BASE_URL}/items/${id}`)
+
+    getorder()
+    console.log(id);
   }
 
   // ======================== UPDATE ======================
   const OnclickEdit = (id) => {
     navigate(`/additems/${id}`)
   }
+
+  // ============================= GETDTA FROM FIRESTORE ===============================
+  const getorder = async () => {
+    const getod = await getDocs(collection(db,'orders'))
+    getod.forEach(doc => {
+      console.log(doc.id);
+      setProduct([doc.data()])
+    })
+  }
+  console.log(Product);
+  // =========================== PETTERN =====================
+  // useEffect(() => {
+  //   let n = 5;
+  //   let string = '';
+  //   for(let i = 0; i <= n; i++) {
+  //       for (let j = 0; j <= i*n - 1; j++) {
+  //           string += ' '
+  //       }
+  //       for (let k = 1; k <= i * - 1; k++) {
+  //         string += '*'
+  //       }
+  //       string += "\n"
+  //   }
+  //   console.log(string);
+  // },[])
   
   return (
     <>
@@ -100,9 +131,9 @@ const Home = () => {
                   <th className='text-end'>Delete | Edit</th>
                 </tr>
                 {
-                  Product.map((i) => {
+                  Product?.map((i) => {
                     return (
-                      <tr>
+                      <tr key={Math.random()}>
                         <td>{i.productName}</td>
                         <td>${i.productPrice}</td>
                         <td>{i.productQauntity}</td>

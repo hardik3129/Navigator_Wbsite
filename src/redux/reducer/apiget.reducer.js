@@ -7,7 +7,6 @@ const initialstate = {
 const apigetreducer = (state = initialstate, action) => {
 
     if (action.type === GETAPI) {
-        console.log(action);
         return { ...state, apidata : action.payload }
     }
     

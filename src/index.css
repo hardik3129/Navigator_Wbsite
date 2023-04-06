@@ -279,6 +279,11 @@ td,th {
   }
 
   /* ================================ LOGIN ============================ */
-  .Dark .card {
-    color: var(--dark-color);
+  .card a {
+    text-decoration: none !important;
+  }
+  
+  .Dark .card, .Dark .card a {
+    background-color: #232c3c !important;
+    color: var(--light-color) !important;
   }

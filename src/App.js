@@ -43,7 +43,7 @@ function App() {
           <Route path="/additems" element={<PrivateRoute><Sidebar><AddItems /></Sidebar></PrivateRoute>} />
           <Route path="/additems/:id" element={<PrivateRoute><Sidebar><AddItems /></Sidebar></PrivateRoute>} />
           <Route path="/login" element={<LoginRoute><Login /></LoginRoute>} />
-          <Route path="/registerd" element={<LoginRoute><Registerd /></LoginRoute>} />
+          <Route path="/registerd" element={<Registerd />} />
           <Route path="/audio" element={<Sidebar><Aodio /></Sidebar>} />
         </Routes>
       </Context.Provider>

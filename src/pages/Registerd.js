@@ -1,8 +1,12 @@
 import React from "react";
 import withRouter from "../utils/withRouter";
+import { toast } from "react-toastify";
+import { auth, Provider } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GoogleLoginButton } from "react-social-login-buttons";
+import { Link } from "react-router-dom";
 
 class Registerd extends React.Component {
-
 
   constructor(props,state) {
 
@@ -10,23 +14,40 @@ class Registerd extends React.Component {
     state = {
       submitted : false,
     } 
-    console.info("this.props ++ ",this.props)
+    // console.info("this.props ++ ",this.props)
   }
-    OnSubmitLogin = (e) => {
+  
+    OnSubmitLogin = async (e) => {
       e.preventDefault()
-        const obj = {
+        const { email, password } = {
             email : e.target.email.value,
-            pasword : e.target.password.value
+            password : e.target.password.value
         }
-        let logobj = obj
-        if (logobj.email === 'admin@gmail.com') {
-            logobj = {...obj, role : 'admin'}
-        } else {
-            logobj = {...obj, role : 'user'}
+        console.log(email, password);
+
+        try {
+          await createUserWithEmailAndPassword(auth, email, password)
+          this.props.router.navigate('/login')
+        } catch (error) {
+          toast.error(new Error(error).message)
+          console.log(error);
         }
-        localStorage.setItem('userLogin',JSON.stringify(logobj)) 
-        this.setState({submitted: true});
-        this.props.router.navigate('/')
+    }
+
+    onClickGoogleLogin = async () => {
+      try {
+        const res = await signInWithPopup(auth, Provider)
+        const obj = {
+          name : res.user.displayName,
+          photourl : res.user.photoURL,
+          email : res.user.email
+        }
+        localStorage.setItem('userLogin', JSON.stringify(obj))
+        this.props.router.navigate('/login')
+      } catch (error) {
+        toast.error(new Error(error).message)
+        console.log(error);
+      }
     }
 
   render() {
@@ -42,6 +63,9 @@ class Registerd extends React.Component {
               
             encType="multipart/form-data"
           >
+            <div className="form-group">
+              <GoogleLoginButton onClick={this.onClickGoogleLogin} />
+            </div>
             <div className="form-group">
               <label className="mb-0">
                 Email<span className="text-danger">*</span>
@@ -64,11 +88,12 @@ class Registerd extends React.Component {
                 placeholder="Password"
               />
             </div>
+            <Link to={'/login'} className="d-inline-block mb-2">Login Here</Link>
             <p className="text-center mb-0">
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100 text-uppercase"
-              >Login</button>
+              >Register</button>
             </p>
           </form>
         </div>

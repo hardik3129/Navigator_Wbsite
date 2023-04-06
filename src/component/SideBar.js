@@ -7,6 +7,9 @@ import { AiFillAudio, AiOutlineForm } from "react-icons/ai";
 import { IoMdAdd } from 'react-icons/io'
 import { useContext } from "react";
 import Context from "../context/context";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { toast } from "react-toastify";
 
 const ToggleSidebar = (props) => {
     const [isOpen, setIsopen] = useState(false);
@@ -28,8 +31,14 @@ const ToggleSidebar = (props) => {
         isOpen === true ? setIsopen(false) : setIsopen(true);
     }
 
-    const OnClickLogout = () => {
+    const OnClickLogout = async () => {
         localStorage.removeItem('userLogin')
+        try {
+            await signOut(auth)
+            toast.info("successfully sign out")
+        } catch (error) {
+            toast.error(new Error(error).message)
+        }
     }
     const OnchangeTheme = () => {
         setTheme(Theme === 'Light' ? "Dark" : "Light")

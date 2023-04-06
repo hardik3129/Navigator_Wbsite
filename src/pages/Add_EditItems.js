@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { addDoc, doc, setDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -6,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { db } from '../firebase';
 
 function AddItems() {
 
@@ -19,8 +21,8 @@ function AddItems() {
     }
     
     useEffect(() => {
-        getdata()
-        console.log(user);
+        // getdata()
+        // console.log(user);
     },[])
     
     
@@ -48,29 +50,55 @@ function AddItems() {
                 productPrice : e.target.product_price.value,
                 productQauntity : e.target.product_qauntity.value
             }
+            try {
+                await addDoc(doc(db,'orders',data))
+                Navigate('/')
+                toast.success(`successfully register ${data.productName} data`)
+            } catch (error) {
+                toast.error(new Error(error).message)
+            }
 
-            // axios.post(`${process.env.REACT_APP_BASE_URL}/items`,data)
-            // .then(() => {
+            // ================================ JSON SERVER API POST =======================================
+            // try {
+            //     await axios({
+            //         url : `${process.env.REACT_APP_BASE_URL}/items`,
+            //         method : 'POST',
+            //         data
+            //     })
             //     Navigate('/')
             //     toast.success('Item Successfully Registerd')
-            // })
-            // .catch(error => {
+            // } catch (error) {
             //     toast.error(new Error(error).message)
-            //     console.log(error)
-            // })
-            try {
-                await axios({
-                    url : `${process.env.REACT_APP_BASE_URL}/items`,
-                    method : 'POST',
-                    data
-                })
-                Navigate('/')
-                toast.success('Item Successfully Registerd')
-            } catch (error) {
-                
-            }
+            // }
         }
     }
+    
+    let n = 5;
+    let string = '';
+
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = n; j >= i; j--) {
+            string += " "
+        }
+        for (let k = 1; k <= i; k++){
+            string += i+" "
+        }
+        string += "\n"
+    }
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = n; j >= i; j--) {
+            string += " "
+        }
+        for (let k = 1; k <= i; k++){
+            string += i+" "
+        }
+        string += "\n"
+    }
+
+    useEffect(() => {
+        console.log(string);
+    },[])
     
   return (
     <Col  className='d-flex justify-content-center'>
